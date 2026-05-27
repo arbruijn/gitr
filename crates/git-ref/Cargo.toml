@@ -12,6 +12,7 @@ git-utils = { workspace = true }
 git-hash = { workspace = true }
 bstr = { workspace = true }
 thiserror = { workspace = true }
+path-slash = "0.2.1"
 
 [dev-dependencies]
 tempfile = { workspace = true }

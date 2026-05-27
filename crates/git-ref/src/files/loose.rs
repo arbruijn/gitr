@@ -1,10 +1,12 @@
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::borrow::Cow;
 
 use bstr::ByteSlice;
 use git_hash::ObjectId;
 use git_utils::lockfile::LockFile;
+use path_slash::PathExt as _;
 
 use crate::error::RefError;
 use crate::name::RefName;
@@ -240,7 +242,7 @@ fn collect_loose_refs_recursive(
                 .strip_prefix(git_dir)
                 .map_err(|_| RefError::Parse("cannot determine ref name from path".into()))?;
 
-            let name_str = rel_path.to_str().ok_or_else(|| {
+            let name_str = rel_path.to_slash().map(Cow::into_owned).ok_or_else(|| {
                 RefError::Parse("non-UTF-8 ref path".into())
             })?;
 
